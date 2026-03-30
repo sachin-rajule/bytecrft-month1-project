@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+
+.container {
+    margin-top: 60px;
+    margin-bottom: 80px; /* FIX for footer space */
+}
+
+.card-custom {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1, h2, h5 {
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    border-radius: 4px;
+}
+
+.footer {
+    background-color: #212529;
+    color: #ccc;
+    text-align: center;
+    padding: 12px;
+    width: 100%;
+}

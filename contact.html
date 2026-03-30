@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contact Us</title>
+
+    <link rel="stylesheet" href="../style.css"> <!-- FIXED -->
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">ByteCraft</a>
+    <div>
+      <a class="nav-link d-inline text-white" href="../index.html">Home</a>
+      <a class="nav-link d-inline text-white" href="clients.html">Clients</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="card-custom">
+        <h2>Contact Us</h2>
+
+        <form onsubmit="return saveMessage()">
+            <input type="text" id="name" placeholder="Name">
+            <input type="email" id="email" placeholder="Email">
+            <input type="text" id="subject" placeholder="Subject">
+            <textarea id="message" class="form-control mb-3"
+                rows="4" placeholder="Message"></textarea>
+
+            <button class="btn btn-primary">Send Message</button>
+        </form>
+    </div>
+
+    <div class="card-custom mt-4">
+        <h4>Previous Messages</h4>
+        <ul id="messageList" class="list-group"></ul>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2026 ByteCraft IT Solutions</p>
+</footer>
+
+<script>
+    const messageList = document.getElementById("messageList");
+
+    window.onload = () => {
+        const msgs = JSON.parse(localStorage.getItem("messages")) || [];
+        msgs.forEach(displayMessage);
+    };
+
+    function saveMessage() {
+        const name = nameEl.value.trim();
+        const email = emailEl.value.trim();
+        const subject = subjectEl.value.trim();
+        const message = messageEl.value.trim();
+
+        if (!name || !email || !subject || !message) {
+            alert("All fields required");
+            return false;
+        }
+
+        const data = { name, email, subject, message };
+
+        let msgs = JSON.parse(localStorage.getItem("messages")) || [];
+        msgs.push(data);
+        localStorage.setItem("messages", JSON.stringify(msgs));
+
+        displayMessage(data);
+        document.querySelector("form").reset();
+
+        return false;
+    }
+
+    const nameEl = document.getElementById("name");
+    const emailEl = document.getElementById("email");
+    const subjectEl = document.getElementById("subject");
+    const messageEl = document.getElementById("message");
+
+    function displayMessage(msg) {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+
+        li.innerHTML = `
+            <strong>${msg.subject}</strong><br>
+            <small>${msg.name} (${msg.email})</small>
+            <p>${msg.message}</p>
+        `;
+
+        messageList.appendChild(li);
+    }
+</script>
+
+</body>
+</html>

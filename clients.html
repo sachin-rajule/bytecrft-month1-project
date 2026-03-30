@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Client Management</title>
+
+    <link rel="stylesheet" href="../style.css"> <!-- FIXED -->
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">ByteCraft</a>
+    <div>
+      <a class="nav-link d-inline text-white" href="../index.html">Home</a>
+      <a class="nav-link d-inline text-white" href="contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="card-custom">
+        <h2>Client Management</h2>
+
+        <h6>Total Clients: <span id="clientCount">0</span></h6>
+
+        <input type="text" id="clientName" placeholder="Enter Client Name">
+        <button class="btn btn-primary mb-2" onclick="addClient()">Add Client</button>
+
+        <input type="text" id="searchClient" placeholder="Search Client"
+               onkeyup="searchClients()" class="mt-2">
+
+        <div id="clientList" class="mt-4"></div>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2026 ByteCraft IT Solutions</p>
+</footer>
+
+<script>
+    let clients = JSON.parse(localStorage.getItem("clients")) || [
+        "Client A", "Client B", "Client C"
+    ];
+
+    const clientList = document.getElementById("clientList");
+    const clientCount = document.getElementById("clientCount");
+
+    function renderClients(list = clients) {
+        clientList.innerHTML = "";
+
+        list.forEach((name) => {
+            const index = clients.indexOf(name); // FIXED INDEX
+
+            const card = document.createElement("div");
+            card.className = "card mb-2 p-3";
+
+            card.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>${name}</span>
+                    <div>
+                        <button class="btn btn-sm btn-warning me-1"
+                            onclick="editClient(${index})">Edit</button>
+                        <button class="btn btn-sm btn-danger"
+                            onclick="deleteClient(${index})">Delete</button>
+                    </div>
+                </div>
+            `;
+
+            clientList.appendChild(card);
+        });
+
+        clientCount.textContent = clients.length;
+        localStorage.setItem("clients", JSON.stringify(clients));
+    }
+
+    function addClient() {
+        const input = document.getElementById("clientName");
+        const name = input.value.trim();
+
+        if (!name) return alert("Enter client name");
+
+        clients.push(name);
+        input.value = "";
+        renderClients();
+    }
+
+    function deleteClient(index) {
+        if (confirm("Delete this client?")) {
+            clients.splice(index, 1);
+            renderClients();
+        }
+    }
+
+    function editClient(index) {
+        const updated = prompt("Edit client:", clients[index]);
+        if (updated) {
+            clients[index] = updated.trim();
+            renderClients();
+        }
+    }
+
+    function searchClients() {
+        const value = document.getElementById("searchClient").value.toLowerCase();
+        const filtered = clients.filter(c => c.toLowerCase().includes(value));
+        renderClients(filtered);
+    }
+
+    renderClients();
+</script>
+
+</body>
+</html>
